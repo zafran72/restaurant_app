@@ -9,7 +9,6 @@ String restaurantToJson(List<Restaurant> data) => json.encode(List<dynamic>.from
 
 class Restaurant {
     Restaurant({
-        required this.id,
         required this.name,
         required this.description,
         required this.pictureId,
@@ -18,7 +17,6 @@ class Restaurant {
         required this.menus,
     });
 
-    final String id;
     final String name;
     final String description;
     final String pictureId;
@@ -27,7 +25,6 @@ class Restaurant {
     final Menus menus;
 
     factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
-        id: json["id"],
         name: json["name"],
         description: json["description"],
         pictureId: json["pictureId"],
@@ -37,7 +34,6 @@ class Restaurant {
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
         "name": name,
         "description": description,
         "pictureId": pictureId,
