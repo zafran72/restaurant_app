@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/restauran.dart';
-import 'package:restaurant_app/styles.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
   static const routeName = '/restaurant_detail';
@@ -13,9 +12,7 @@ class RestaurantDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: backGroundColor,
         title: Text(
           restaurant.name.toUpperCase(),
           style: Theme.of(context).textTheme.headline4,
@@ -24,20 +21,23 @@ class RestaurantDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(restaurant.pictureId),
+            Hero(
+              tag: restaurant.pictureId,
+              child: Image.network(restaurant.pictureId),
+            ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: Text(
                           restaurant.name,
                           style: const TextStyle(
-                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 24,
                           ),
@@ -49,12 +49,10 @@ class RestaurantDetailPage extends StatelessWidget {
                           children: [
                             const Icon(
                               Icons.star,
-                              color: Colors.amber,
                             ),
                             Text(
                               restaurant.rating.toString(),
                               style: const TextStyle(
-                                color: primaryColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),
@@ -66,16 +64,15 @@ class RestaurantDetailPage extends StatelessWidget {
                         flex: 3,
                         child: Row(
                           children: [
-                            const Icon(
-                              Icons.location_pin,
-                              color: Colors.black,
-                            ),
-                            Text(
-                              restaurant.city,
-                              style: const TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                            const Icon(Icons.location_pin),
+                            Flexible(
+                              child: Text(
+                                restaurant.city,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             )
                           ],
@@ -84,14 +81,12 @@ class RestaurantDetailPage extends StatelessWidget {
                     ],
                   ),
                   const Divider(
-                    color: Colors.grey,
                     thickness: 0.75,
                     height: 30,
                   ),
                   const Text(
                     "Description",
                     style: TextStyle(
-                      color: primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -104,16 +99,12 @@ class RestaurantDetailPage extends StatelessWidget {
                     maxLines: 8,
                   ),
                   const Divider(
-                    color: Colors.grey,
                     thickness: 0.75,
                     height: 20,
                   ),
-                  const Text(
+                  Text(
                     "Foods",
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                   GridView.builder(
                     primary: false,
@@ -126,7 +117,6 @@ class RestaurantDetailPage extends StatelessWidget {
                     itemCount: restaurant.menus.foods.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return Card(
-                        color: const Color(0xFFB9E4C9),
                         child: Column(
                           children: [
                             Expanded(
@@ -140,7 +130,7 @@ class RestaurantDetailPage extends StatelessWidget {
                               flex: 1,
                               child: Text(
                                 restaurant.menus.foods[index].name,
-                                style: const TextStyle(fontSize: 12),
+                                style: Theme.of(context).textTheme.subtitle1,
                               ),
                             ),
                           ],
@@ -149,13 +139,7 @@ class RestaurantDetailPage extends StatelessWidget {
                     },
                   ),
                   const Divider(),
-                  const Text(
-                    "Drinks",
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text("Drinks", style: Theme.of(context).textTheme.headline6),
                   GridView.builder(
                     primary: false,
                     shrinkWrap: true,
@@ -181,7 +165,7 @@ class RestaurantDetailPage extends StatelessWidget {
                               flex: 1,
                               child: Text(
                                 restaurant.menus.drinks[index].name,
-                                style: const TextStyle(fontSize: 12),
+                                style: Theme.of(context).textTheme.subtitle1,
                               ),
                             ),
                           ],

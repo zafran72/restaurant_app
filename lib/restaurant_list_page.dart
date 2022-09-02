@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/restauran.dart';
 import 'package:restaurant_app/restaurant_detail_page.dart';
-import 'package:restaurant_app/styles.dart';
 
 class RestoListPage extends StatelessWidget {
   static const routeName = '/restaurant_list';
@@ -12,9 +11,23 @@ class RestoListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Favesto : Your favorite restaurant',
-          style: Theme.of(context).textTheme.headline5,
+        title: Row(
+          children: [
+            Text(
+              'FAVESTO',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  'Choose Your Favorite Restaurant',
+                  style: Theme.of(context).textTheme.subtitle2,
+                  maxLines: 2,
+                ),
+              ),
+            )
+          ],
         ),
       ),
       body: FutureBuilder<String>(
@@ -42,7 +55,6 @@ Widget _buildArticleItem(BuildContext context, Restaurant restaurant) {
           arguments: restaurant);
     },
     child: Container(
-      color: backGroundColor,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
@@ -52,7 +64,10 @@ Widget _buildArticleItem(BuildContext context, Restaurant restaurant) {
             flex: 2,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.network(restaurant.pictureId),
+              child: Hero(
+                tag: restaurant.pictureId,
+                child: Image.network(restaurant.pictureId),
+              ),
             ),
           ),
           Expanded(
@@ -77,11 +92,7 @@ Widget _buildArticleItem(BuildContext context, Restaurant restaurant) {
                     padding: const EdgeInsets.only(bottom: 6.0),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.location_pin,
-                          size: 16,
-                          color: secondaryColor,
-                        ),
+                        const Icon(Icons.location_pin, size: 16),
                         Text(restaurant.city,
                             style: Theme.of(context).textTheme.subtitle2),
                       ],
@@ -89,11 +100,7 @@ Widget _buildArticleItem(BuildContext context, Restaurant restaurant) {
                   ),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star,
-                        size: 16,
-                        color: secondaryColor,
-                      ),
+                      const Icon(Icons.star, size: 16),
                       Text(restaurant.rating.toString(),
                           style: Theme.of(context).textTheme.subtitle2),
                     ],

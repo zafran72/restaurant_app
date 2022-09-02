@@ -22,8 +22,12 @@ class MyApp extends StatelessWidget {
               onPrimary: primaryColor,
               secondary: secondaryColor,
             ),
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: backGroundColor,
+        appBarTheme: const AppBarTheme(backgroundColor: backGroundColor),
+        iconTheme: const IconThemeData(color: secondaryColor),
         textTheme: basilTheme,
+        dividerColor: Colors.grey,
+        cardColor: primaryColor3,
       ),
       initialRoute: RestoListPage.routeName,
       routes: {
@@ -36,3 +40,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+//developed by T. Zafran Elrifqi
