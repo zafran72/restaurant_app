@@ -23,7 +23,8 @@ class RestaurantDetailPage extends StatelessWidget {
           children: [
             Hero(
               tag: restaurant.pictureId,
-              child: Image.network(restaurant.pictureId),
+              child: Image.network(
+                  "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}"),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -106,38 +107,7 @@ class RestaurantDetailPage extends StatelessWidget {
                     "Foods",
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  GridView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 150,
-                            crossAxisSpacing: 30,
-                            mainAxisSpacing: 10),
-                    itemCount: restaurant.menus.foods.length,
-                    itemBuilder: (BuildContext ctx, index) {
-                      return Card(
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Image.asset('assets/images/food.png'),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                restaurant.menus.foods[index].name,
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                  MyGridView(restaurant: restaurant),
                   const Divider(),
                   Text("Drinks", style: Theme.of(context).textTheme.headline6),
                   GridView.builder(
@@ -172,13 +142,55 @@ class RestaurantDetailPage extends StatelessWidget {
                         ),
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class MyGridView extends StatelessWidget {
+  final Restaurant restaurant;
+
+  const MyGridView({super.key, required this.restaurant});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      primary: false,
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 150,
+        crossAxisSpacing: 30,
+        mainAxisSpacing: 10,
+      ),
+      itemCount: restaurant.menus.foods.length,
+      itemBuilder: (BuildContext ctx, index) {
+        return Card(
+          child: Column(
+            children: [
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Image.asset('assets/images/food.png'),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  restaurant.menus.foods[index].name,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
