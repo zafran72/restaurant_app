@@ -7,52 +7,35 @@ class RestauranDetail {
 
   final bool error;
   final String message;
-  final Restaurant restaurant;
+  final RestaurantDetailMore restaurant;
 
   factory RestauranDetail.fromJson(Map<String, dynamic> json) =>
       RestauranDetail(
         error: json["error"],
         message: json["message"],
-        restaurant: Restaurant.fromJson(json["restaurant"]),
+        restaurant: RestaurantDetailMore.fromJson(json["restaurant"]),
       );
 }
 
-class Restaurant {
-  Restaurant({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.city,
+class RestaurantDetailMore {
+  RestaurantDetailMore({
     required this.address,
-    required this.pictureId,
     required this.categories,
     required this.menus,
-    required this.rating,
     required this.customerReviews,
   });
 
-  final String id;
-  final String name;
-  final String description;
-  final String city;
   final String address;
-  final String pictureId;
   final List<Category> categories;
   final Menus menus;
-  final double rating;
   final List<CustomerReview> customerReviews;
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        city: json["city"],
+  factory RestaurantDetailMore.fromJson(Map<String, dynamic> json) =>
+      RestaurantDetailMore(
         address: json["address"],
-        pictureId: json["pictureId"],
         categories: List<Category>.from(
             json["categories"].map((x) => Category.fromJson(x))),
         menus: Menus.fromJson(json["menus"]),
-        rating: json["rating"].toDouble(),
         customerReviews: List<CustomerReview>.from(
             json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
       );
@@ -68,10 +51,6 @@ class Category {
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         name: json["name"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-      };
 }
 
 class CustomerReview {

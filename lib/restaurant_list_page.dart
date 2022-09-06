@@ -32,7 +32,7 @@ class RestoListPage extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-        future: ApiService().topRestaurants('list'),
+        future: ApiService().topRestaurants(),
         builder: (context, AsyncSnapshot<RestauranList> snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             // loading widget
@@ -44,7 +44,9 @@ class RestoListPage extends StatelessWidget {
                 itemCount: snapshot.data?.restaurants.length,
                 itemBuilder: (context, index) {
                   var restaurant = snapshot.data?.restaurants[index];
-                  return CardRestaurant(restaurant: restaurant!);
+                  return CardRestaurant(
+                    restaurant: restaurant!,
+                  );
                 },
               );
               // success widget
@@ -89,9 +91,7 @@ class CardRestaurant extends StatelessWidget {
                 child: Hero(
                   tag: restaurant.pictureId,
                   child: Image.network(
-                    "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}",
-                    width: 100,
-                  ),
+                      "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}"),
                 ),
               ),
             ),
