@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/api/api.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
-import 'package:restaurant_app/restaurant_detail_page.dart';
+import 'package:restaurant_app/ui/restaurant_detail_page.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 
 class RestoListPage extends StatelessWidget {
   static const routeName = '/restaurant_list';
@@ -10,57 +12,58 @@ class RestoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Text(
-              'FAVESTO',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Text(
-                  'Choose Your Favorite Restaurant',
-                  style: Theme.of(context).textTheme.subtitle2,
-                  maxLines: 2,
-                ),
+    return ChangeNotifierProvider<RestaurantProvider>(
+      create: (_) => RestaurantProvider(apiService: ApiService()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Text(
+                'FAVESTO',
+                style: Theme.of(context).textTheme.headline5,
               ),
-            )
-          ],
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    'Choose Your Favorite Restaurant',
+                    style: Theme.of(context).textTheme.subtitle2,
+                    maxLines: 2,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-      body: FutureBuilder(
-        future: ApiService().topRestaurants(),
-        builder: (context, AsyncSnapshot<RestauranList> snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            // loading widget
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                itemCount: snapshot.data?.restaurants.length,
-                itemBuilder: (context, index) {
-                  var restaurant = snapshot.data?.restaurants[index];
-                  return CardRestaurant(
-                    restaurant: restaurant!,
-                  );
-                },
-              );
-              // success widget
-            } else if (snapshot.hasError) {
-              // error widget
-              return Center(
-                child: Text(snapshot.error.toString()),
-              );
-            } else {
-              // loading widget
+        body: Consumer<RestaurantProvider>(
+          builder: (context, state, _) {
+            if (state.state == ResultState.loading) {
               return const Center(child: CircularProgressIndicator());
+            } else {
+              if (state.state == ResultState.hasData) {
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: state.result.restaurants.length,
+                  itemBuilder: (context, index) {
+                    var restaurant = state.result.restaurants[index];
+                    return CardRestaurant(
+                      restaurant: restaurant,
+                    );
+                  },
+                );
+                // success widget
+              } else if (state.state == ResultState.error) {
+                // error widget
+                return Center(
+                  child: Text(state.message.toString()),
+                );
+              } else {
+                // loading widget
+                return const Center(child: CircularProgressIndicator());
+              }
             }
-          }
-        },
+          },
+        ),
       ),
     );
   }
