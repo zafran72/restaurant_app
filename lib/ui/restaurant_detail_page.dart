@@ -35,8 +35,11 @@ class RestaurantDetailPage extends StatelessWidget {
                     return const Center(child: CircularProgressIndicator());
                   } else {
                     if (state.state == ResultState.hasData) {
-                      return Image.network(
-                          "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}");
+                      return Hero(
+                        tag: restaurant.pictureId,
+                        child: Image.network(
+                            "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}"),
+                      );
                       // success widget
                     } else if (state.state == ResultState.error) {
                       // error widget

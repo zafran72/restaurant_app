@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_app/data/model/image.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/data/model/restaurant_search.dart';
@@ -35,16 +34,6 @@ class ApiService {
     final response = await http.get(Uri.parse("$_baseUrl/$_getSearch$query"));
     if (response.statusCode == 200) {
       return RestaurantSearch.fromJson(json.decode(response.body));
-    } else {
-      throw Exception("Failed to load restaurant search");
-    }
-  }
-
-  Future<ImageId> restaurantImage(String pictureId) async {
-    final response =
-        await http.get(Uri.parse("$_baseUrl/$_getSearch$pictureId"));
-    if (response.statusCode == 200) {
-      return ImageId.fromJson(json.decode(response.body));
     } else {
       throw Exception("Failed to load restaurant search");
     }
