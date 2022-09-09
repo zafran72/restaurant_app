@@ -6,9 +6,9 @@ class RestauranList {
     required this.restaurants,
   });
 
-  final bool error;
-  final String message;
-  final int count;
+  final bool? error;
+  final String? message;
+  final int? count;
   final List<Restaurant> restaurants;
 
   factory RestauranList.fromJson(Map<String, dynamic> json) => RestauranList(
