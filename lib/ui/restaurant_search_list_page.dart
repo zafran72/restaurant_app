@@ -20,7 +20,6 @@ class RestaurantSearchListPage extends StatelessWidget {
         body: Consumer<RestaurantSearchProvider>(
           builder: (context, state, _) {
             if (state.state == ResultState.loading) {
-              // loading widget
               return const Center(child: CircularProgressIndicator());
             } else {
               if (state.state == ResultState.hasData) {
@@ -32,14 +31,11 @@ class RestaurantSearchListPage extends StatelessWidget {
                     return CardSearchRestaurant(restaurant: restaurant);
                   },
                 );
-                // success widget
               } else if (state.state == ResultState.error) {
-                // error widget
                 return Center(
                   child: Text(state.message.toString()),
                 );
               } else {
-                // loading widget
                 return const Center(child: Text("not found"));
               }
             }
