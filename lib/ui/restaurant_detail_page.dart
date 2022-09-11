@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/model/restaurant_list.dart';
-import 'package:restaurant_app/data/model/restaurant_detail.dart';
+import 'package:restaurant_app/data/model/restaurant_list_model.dart';
+import 'package:restaurant_app/data/model/restaurant_detail_model.dart';
 import 'package:restaurant_app/provider/restaurant_detail_provider.dart';
 
 class RestaurantDetailPage extends StatelessWidget {

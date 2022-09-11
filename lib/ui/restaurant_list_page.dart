@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/ui/restaurant_card.dart';
-import 'package:restaurant_app/ui/restaurant_search.dart';
+import 'package:restaurant_app/widget/restaurant_card.dart';
+import 'package:restaurant_app/ui/restaurant_search_page.dart';
 
 class RestoListPage extends StatelessWidget {
   static const routeName = '/restaurant_list';
