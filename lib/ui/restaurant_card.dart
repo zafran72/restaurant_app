@@ -42,10 +42,15 @@ class CardRestaurant extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Row(
                         children: [
-                          Flexible(
+                          Expanded(
+                            flex: 10,
                             child: Text(restaurant.name,
                                 style: Theme.of(context).textTheme.headline6),
                           ),
+                          // Expanded(
+                          //   flex: 1,
+                          //   child: Icon(Icons.favorite_outline)
+                          // ),
                         ],
                       ),
                     ),
