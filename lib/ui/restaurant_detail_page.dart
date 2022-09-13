@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant_list_model.dart';
 import 'package:restaurant_app/data/model/restaurant_detail_model.dart';
@@ -37,8 +38,17 @@ class RestaurantDetailPage extends StatelessWidget {
                     if (state.state == ResultState.hasData) {
                       return Hero(
                         tag: restaurant.pictureId,
-                        child: Image.network(
-                            "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}"),
+                        child: Stack(
+                          alignment: AlignmentDirectional.topEnd,
+                          children: [
+                            Image.network(
+                                "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}"),
+                            Card(
+                              color: primaryColor3,
+                              child: const FavoriteButton(),
+                            ),
+                          ],
+                        ),
                       );
                       // success widget
                     } else if (state.state == ResultState.error) {
@@ -282,6 +292,32 @@ class CardMenus2 extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key}) : super(key: key);
+
+  @override
+  FavoriteButtonState createState() => FavoriteButtonState();
+}
+
+class FavoriteButtonState extends State<FavoriteButton> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: secondaryColor,
+      ),
+      onPressed: () {
+        setState(() {
+          isFavorite = !isFavorite;
+        });
+      },
     );
   }
 }

@@ -40,7 +40,7 @@ class RestaurantSearchProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
-      return _message = 'Pencarian tidak ditemukan';
+      return _message = 'not found';
     }
   }
 }
