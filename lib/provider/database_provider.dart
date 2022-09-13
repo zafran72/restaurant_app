@@ -42,14 +42,14 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> isFavorited(String url) async {
-    final favoritedRestaurant = await databaseHelper.getFavoriteByUrl(url);
+  Future<bool> isFavorited(String id) async {
+    final favoritedRestaurant = await databaseHelper.getFavoriteById(id);
     return favoritedRestaurant.isNotEmpty;
   }
 
-  void removeFavorite(String url) async {
+  void removeFavorite(String id) async {
     try {
-      await databaseHelper.removeFavorite(url);
+      await databaseHelper.removeFavorite(id);
       _getFavorites();
     } catch (e) {
       _state = ResultState.error;

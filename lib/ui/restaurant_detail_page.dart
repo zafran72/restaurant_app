@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_detail_provider.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
@@ -36,18 +37,43 @@ class RestaurantDetailPage extends StatelessWidget {
                     return const Center(child: CircularProgressIndicator());
                   } else {
                     if (state.state == ResultState.hasData) {
-                      return Hero(
-                        tag: restaurant.pictureId,
-                        child: Stack(
-                          alignment: AlignmentDirectional.topEnd,
-                          children: [
-                            Image.network(
-                                "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}"),
-                            const FavoriteButton(),
-                            
-                          ],
-                        ),
-                      );
+                      return Consumer<DatabaseProvider>(
+                          builder: (context, provider, child) {
+                        return FutureBuilder<bool>(
+                            future: provider.isFavorited(restaurant.id),
+                            builder: (context, snapshot) {
+                              var isFavorited = snapshot.data ?? false;
+                              return Hero(
+                                tag: restaurant.pictureId,
+                                child: Stack(
+                                  alignment: AlignmentDirectional.topEnd,
+                                  children: [
+                                    Image.network(
+                                        "https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}"),
+                                    // const FavoriteButton(),
+                                    isFavorited
+                                        ? IconButton(
+                                            icon: const Icon(MdiIcons.heart),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            onPressed: () => provider
+                                                .removeFavorite(restaurant.id),
+                                          )
+                                        : IconButton(
+                                            icon: const Icon(
+                                                MdiIcons.heartOutline),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            onPressed: () => provider
+                                                .addFavorite(restaurant),
+                                          ),
+                                  ],
+                                ),
+                              );
+                            });
+                      });
                       // success widget
                     } else if (state.state == ResultState.error) {
                       // error widget
@@ -305,10 +331,12 @@ class _FavoriteButtonState extends State<FavoriteButton> {
   bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
-    return IconButton(onPressed: () {
-      setState(() {
-        isFavorite = !isFavorite;
-      });
-    }, icon: Icon(isFavorite ? MdiIcons.heart : MdiIcons.heartOutline));
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            isFavorite = !isFavorite;
+          });
+        },
+        icon: Icon(isFavorite ? MdiIcons.heart : MdiIcons.heartOutline));
   }
 }

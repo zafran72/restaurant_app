@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/ui/restaurant_card.dart';
-import 'package:restaurant_app/ui/restaurant_search.dart';
+import '../utils/result_state.dart';
 
 class FavoritesPage extends StatelessWidget {
   static const String favoritesTitle = 'Favorites';
@@ -12,60 +11,28 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RestaurantProvider>(
-      create: (_) => RestaurantProvider(apiService: ApiService()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              Expanded(
-                flex: 10,
-                child: Text(
-                  'Your favorites',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              ),
-              Flexible(
-                child: IconButton(
-                  onPressed: (() {
-                    Navigator.pushNamed(
-                        context, RestaurantSearchPage.routeName);
-                  }),
-                  icon: const Icon(Icons.search),
-                ),
-              ),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Your Favorites Restaurant',
+          style: Theme.of(context).textTheme.headline5,
         ),
-        body: Consumer<RestaurantProvider>(
-          builder: (context, state, _) {
-            if (state.state == ResultState.loading) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              if (state.state == ResultState.hasData) {
-                return ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
-                  itemCount: state.result.restaurants.length,
-                  itemBuilder: (context, index) {
-                    var restaurant = state.result.restaurants[index];
-                    return CardRestaurant(
-                      restaurant: restaurant,
-                    );
-                  },
-                );
-                // success widget
-              } else if (state.state == ResultState.error) {
-                // error widget
-                return const Center(
-                  child: Text("No Internet Connection"),
-                );
-              } else {
-                // loading widget
-                return const Center(child: CircularProgressIndicator());
-              }
-            }
-          },
-        ),
+      ),
+      body: Consumer<DatabaseProvider>(
+        builder: (context, provider, child) {
+          if (provider.state == ResultState.hasData) {
+            return ListView.builder(
+              itemCount: provider.favorites.length,
+              itemBuilder: (context, index) {
+                return CardRestaurant(restaurant: provider.favorites[index]);
+              },
+            );
+          } else {
+            return const Center(
+              child: Text('no favorites'),
+            );
+          }
+        },
       ),
     );
   }

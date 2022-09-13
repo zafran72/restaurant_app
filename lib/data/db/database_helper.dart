@@ -24,7 +24,7 @@ class DatabaseHelper {
              description TEXT,
              pictureId TEXT,
              city TEXT,
-             rating TEXT
+             rating REAL
            )     
         ''');
       },
@@ -52,13 +52,13 @@ class DatabaseHelper {
     return results.map((res) => Restaurant.fromJson(res)).toList();
   }
 
-  Future<Map> getFavoriteByUrl(String url) async {
+  Future<Map> getFavoriteById(String id) async {
     final db = await database;
 
     List<Map<String, dynamic>> results = await db!.query(
       _tblFavorite,
-      where: 'url = ?',
-      whereArgs: [url],
+      where: 'id = ?',
+      whereArgs: [id],
     );
 
     if (results.isNotEmpty) {
@@ -68,13 +68,13 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> removeFavorite(String url) async {
+  Future<void> removeFavorite(String id) async {
     final db = await database;
 
     await db!.delete(
       _tblFavorite,
-      where: 'url = ?',
-      whereArgs: [url],
+      where: 'id = ?',
+      whereArgs: [id],
     );
   }
 }
