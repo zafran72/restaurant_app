@@ -18,19 +18,11 @@ class FavoritesPage extends StatelessWidget {
         appBar: AppBar(
           title: Row(
             children: [
-              Text(
-                'FAVESTO',
-                style: Theme.of(context).textTheme.headline5,
-              ),
               Expanded(
                 flex: 10,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text(
-                    'Choose Your Favorite Restaurant',
-                    style: Theme.of(context).textTheme.subtitle2,
-                    maxLines: 2,
-                  ),
+                child: Text(
+                  'Your favorites',
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               Flexible(
