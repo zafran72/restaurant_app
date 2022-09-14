@@ -1,5 +1,5 @@
 import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/model/restaurant_search.dart';
+import 'package:restaurant_app/data/model/restaurant_search_model.dart';
 import 'package:flutter/material.dart';
 
 enum ResultState { loading, noData, hasData, error }

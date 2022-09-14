@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/model/restaurant_list.dart';
+import 'package:restaurant_app/data/model/restaurant_list_model.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 
 class CardRestaurant extends StatelessWidget {
@@ -42,10 +42,15 @@ class CardRestaurant extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Row(
                         children: [
-                          Flexible(
+                          Expanded(
+                            flex: 10,
                             child: Text(restaurant.name,
                                 style: Theme.of(context).textTheme.headline6),
                           ),
+                          // Expanded(
+                          //   flex: 1,
+                          //   child: Icon(Icons.favorite_outline)
+                          // ),
                         ],
                       ),
                     ),
