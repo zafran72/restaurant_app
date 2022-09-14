@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/data/model/restaurant_list_model.dart';
@@ -10,6 +11,8 @@ final selectNotificationSubject = BehaviorSubject<String>();
 
 class NotificationHelper {
   static NotificationHelper? _instance;
+
+  final randomIndex = Random().nextInt(20);
 
   NotificationHelper._internal() {
     _instance = this;
@@ -33,9 +36,7 @@ class NotificationHelper {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
-      if (payload != null) {
-        print('notification payload: ' + payload);
-      }
+      if (payload != null) {}
       selectNotificationSubject.add(payload ?? 'empty payload');
     });
   }
@@ -44,7 +45,7 @@ class NotificationHelper {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
       RestauranList restaurants) async {
     var channelId = "1";
-    var channelName = "channel_01";
+    var channelName = "Chafesto";
     var channelDescription = "restaurant channel";
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -61,7 +62,7 @@ class NotificationHelper {
         iOS: iOSPlatformChannelSpecifics);
 
     var titleNotification = "<b>Restaurant Recomendation</b>";
-    var nameRestaurant = restaurants.restaurants[0].name;
+    var nameRestaurant = "Check recommended restaurant for you";
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, nameRestaurant, platformChannelSpecifics,
@@ -72,7 +73,8 @@ class NotificationHelper {
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var data = RestauranList.fromJson(json.decode(payload));
-        var restaurant = data.restaurants[0];
+        var restaurant =
+            data.restaurants[Random().nextInt(data.restaurants.length)];
         Navigation.intentWithData(route, restaurant);
       },
     );
