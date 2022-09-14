@@ -1,13 +1,9 @@
-import 'dart:io';
-
-import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
+import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../provider/scheduling_provider.dart';
-import '../widgets/custom_dialog.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   static const String settingsTitle = 'Settings';
@@ -39,21 +35,15 @@ class SettingsPage extends StatelessWidget {
     return Consumer<PreferencesProvider>(builder: (context, provider, child) {
       return ListTile(
         title: const Text('Recommend Restaurant'),
-        subtitle: Text(
-          'Enable Notification',
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
+        subtitle: Text('Enable Notification',
+            style: Theme.of(context).textTheme.subtitle2),
         trailing: Consumer<SchedulingProvider>(
           builder: (context, scheduled, _) {
             return Switch.adaptive(
               value: provider.isDailyRestaurantActive,
               onChanged: (value) async {
-                if (Platform.isIOS) {
-                  customDialog(context);
-                } else {
-                  scheduled.scheduledRestaurant(value);
-                  provider.enableDailyRestaurant(value);
-                }
+                scheduled.scheduledRestaurant(value);
+                provider.enableDailyRestaurant(value);
               },
             );
           },

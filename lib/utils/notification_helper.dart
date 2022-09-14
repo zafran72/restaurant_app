@@ -12,8 +12,6 @@ final selectNotificationSubject = BehaviorSubject<String>();
 class NotificationHelper {
   static NotificationHelper? _instance;
 
-  final randomIndex = Random().nextInt(20);
-
   NotificationHelper._internal() {
     _instance = this;
   }
@@ -36,7 +34,9 @@ class NotificationHelper {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
-      if (payload != null) {}
+      if (payload != null) {
+        print('notification payload: ' + payload);
+      }
       selectNotificationSubject.add(payload ?? 'empty payload');
     });
   }

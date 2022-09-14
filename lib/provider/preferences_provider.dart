@@ -17,7 +17,7 @@ class PreferencesProvider extends ChangeNotifier {
   }
 
   void enableDailyRestaurant(bool value) {
-    preferencesHelper.setDailyRestaurant(true);
+    preferencesHelper.setDailyRestaurant(value);
     _getDailyRestaurantPreferences();
   }
 }
