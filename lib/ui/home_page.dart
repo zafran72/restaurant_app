@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/ui/favorites_page.dart';
+import 'package:restaurant_app/ui/restaurant_favorites_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/settings_page.dart';
 import 'package:restaurant_app/widgets/platform_widget.dart';
@@ -29,7 +29,8 @@ class _HomePageState extends State<HomePage> {
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [
     BottomNavigationBarItem(
-      icon: Icon(Platform.isIOS ? CupertinoIcons.news : MdiIcons.silverwareForkKnife),
+      icon: Icon(
+          Platform.isIOS ? CupertinoIcons.news : MdiIcons.silverwareForkKnife),
       label: _restaurantText,
     ),
     BottomNavigationBarItem(

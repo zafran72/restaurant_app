@@ -27,7 +27,8 @@ class RestoListPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Text(
-                    'Choose Your Favorite Restaurant',
+                    'Recomendded Restaurant For You',
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle2,
                     maxLines: 2,
                   ),

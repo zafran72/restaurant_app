@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
-import 'package:restaurant_app/data/model/restaurant_list.dart';
+import 'package:restaurant_app/data/model/restaurant_list_model.dart';
 
 import '../utils/result_state.dart';
 
@@ -11,8 +11,8 @@ class DatabaseProvider extends ChangeNotifier {
     _getFavorites();
   }
 
-  late ResultState _state;
-  ResultState get state => _state;
+  ResultState? _state;
+  ResultState? get state => _state;
 
   String _message = '';
   String get message => _message;

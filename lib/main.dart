@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
-import 'package:restaurant_app/data/model/restaurant_list.dart';
+import 'package:restaurant_app/data/model/restaurant_list_model.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/ui/home_page.dart';

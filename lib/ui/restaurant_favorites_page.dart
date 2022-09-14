@@ -14,7 +14,7 @@ class FavoritesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Your Favorites Restaurant',
+          'Your Favorite Restaurants',
           style: Theme.of(context).textTheme.headline5,
         ),
       ),

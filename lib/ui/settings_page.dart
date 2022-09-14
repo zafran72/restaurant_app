@@ -11,7 +11,10 @@ class SettingsPage extends StatelessWidget {
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(settingsTitle),
+        title: Text(
+          settingsTitle,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: _buildList(context),
     );
@@ -29,50 +32,57 @@ class SettingsPage extends StatelessWidget {
   Widget _buildList(BuildContext context) {
     return ListView(
       children: [
-        Material(
-          child: ListTile(
-            title: const Text('Dark Theme'),
-            trailing: Switch.adaptive(
-              value: false,
-              onChanged: (value) {
-                defaultTargetPlatform == TargetPlatform.iOS
-                    ? showCupertinoDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (context) {
-                          return CupertinoAlertDialog(
-                            title: const Text('Coming Soon!'),
-                            content: const Text('This feature will be coming soon!'),
-                            actions: [
-                              CupertinoDialogAction(
-                                child: const Text('Ok'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      )
-                    : showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Coming Soon!'),
-                            content: const Text('This feature will be coming soon!'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Ok'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-              },
-            ),
+        ListTile(
+          title: Text(
+            'Restaurant Notification',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          subtitle: Text(
+            'Enable Notification',
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          trailing: Switch.adaptive(
+            value: false,
+            onChanged: (value) {
+              defaultTargetPlatform == TargetPlatform.iOS
+                  ? showCupertinoDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: const Text('Coming Soon!'),
+                          content:
+                              const Text('This feature will be coming soon!'),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                  : showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Coming Soon!'),
+                          content:
+                              const Text('This feature will be coming soon!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+            },
           ),
         ),
       ],
