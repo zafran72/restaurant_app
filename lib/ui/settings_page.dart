@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../provider/scheduling_provider.dart';
+import '../widgets/custom_dialog.dart';
 
 class SettingsPage extends StatelessWidget {
   static const String settingsTitle = 'Settings';
@@ -82,6 +88,23 @@ class SettingsPage extends StatelessWidget {
                         );
                       },
                     );
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('Scheduling Restaurant'),
+          trailing: Consumer<SchedulingProvider>(
+            builder: (context, scheduled, _) {
+              return Switch.adaptive(
+                value: scheduled.isScheduled,
+                onChanged: (value) async {
+                  if (Platform.isIOS) {
+                    customDialog(context);
+                  } else {
+                    scheduled.scheduledRestaurant(value);
+                  }
+                },
+              );
             },
           ),
         ),
