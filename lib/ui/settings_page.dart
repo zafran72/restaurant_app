@@ -1,7 +1,9 @@
+import 'package:restaurant_app/provider/preferences_provider.dart';
+import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   static const String settingsTitle = 'Settings';
@@ -30,63 +32,24 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          title: Text(
-            'Restaurant Notification',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          subtitle: Text(
-            'Enable Notification',
-            style: Theme.of(context).textTheme.subtitle2,
-          ),
-          trailing: Switch.adaptive(
-            value: false,
-            onChanged: (value) {
-              defaultTargetPlatform == TargetPlatform.iOS
-                  ? showCupertinoDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (context) {
-                        return CupertinoAlertDialog(
-                          title: const Text('Coming Soon!'),
-                          content:
-                              const Text('This feature will be coming soon!'),
-                          actions: [
-                            CupertinoDialogAction(
-                              child: const Text('Ok'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    )
-                  : showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Coming Soon!'),
-                          content:
-                              const Text('This feature will be coming soon!'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Ok'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-            },
-          ),
+    return Consumer<PreferencesProvider>(builder: (context, provider, child) {
+      return ListTile(
+        title: const Text('Recommend Restaurant'),
+        subtitle: Text('Enable Notification',
+            style: Theme.of(context).textTheme.subtitle2),
+        trailing: Consumer<SchedulingProvider>(
+          builder: (context, scheduled, _) {
+            return Switch.adaptive(
+              value: provider.isDailyRestaurantActive,
+              onChanged: (value) async {
+                scheduled.scheduledRestaurant(value);
+                provider.enableDailyRestaurant(value);
+              },
+            );
+          },
         ),
-      ],
-    );
+      );
+    });
   }
 
   @override

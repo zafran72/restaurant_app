@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/model/restaurant_list_model.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 
@@ -11,8 +12,7 @@ class CardRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-            arguments: restaurant);
+        Navigation.intentWithData(RestaurantDetailPage.routeName, restaurant);
       },
       child: Container(
         padding: const EdgeInsets.all(10),
