@@ -12,7 +12,7 @@ class ApiService {
   List<RestauranList> results = [];
   var data = [];
 
-  Future<RestauranList> topRestaurants() async {
+  Future<RestauranList> topRestaurants(http.Client client) async {
     final response = await http.get(Uri.parse("$_baseUrl/$_getList"));
     if (response.statusCode == 200) {
       return RestauranList.fromJson(json.decode(response.body));
