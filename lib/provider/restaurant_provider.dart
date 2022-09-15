@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant_list_model.dart';
+import 'package:http/http.dart' as http;
 
 enum ResultState { loading, noData, hasData, error }
 
@@ -8,7 +9,7 @@ class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
 
   RestaurantProvider({required this.apiService}) {
-    _fetchAllArticle();
+    fetchAllArticle();
   }
 
   late RestauranList _restaurantList;
@@ -21,11 +22,11 @@ class RestaurantProvider extends ChangeNotifier {
 
   ResultState get state => _state;
 
-  Future<dynamic> _fetchAllArticle() async {
+  Future<dynamic> fetchAllArticle() async {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final restaurant = await apiService.topRestaurants();
+      final restaurant = await apiService.topRestaurants(http.Client());
       if (restaurant.restaurants.isEmpty) {
         _state = ResultState.noData;
         notifyListeners();
