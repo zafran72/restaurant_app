@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_favorites_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
@@ -29,10 +27,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _listWidget = [
     const RestoListPage(),
     const FavoritesPage(),
-    ChangeNotifierProvider<SchedulingProvider>(
-      create: (_) => SchedulingProvider(),
-      child: const SettingsPage(),
-    ),
+    const SettingsPage()
   ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [

@@ -12,6 +12,7 @@ import 'package:restaurant_app/data/preferences/preference_helper.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/home_page.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_search.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()),
         ),
+        ChangeNotifierProvider(create: (_) => SchedulingProvider()),
         ChangeNotifierProvider(
           create: (_) => PreferencesProvider(
             preferencesHelper: PreferencesHelper(
@@ -61,38 +63,40 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ],
-      child: MaterialApp(
-        title: 'Restaurant App',
-        theme: ThemeData(
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: primaryColor,
-                onPrimary: primaryColor,
-                secondary: secondaryColor,
-              ),
-          scaffoldBackgroundColor: backGroundColor,
-          appBarTheme: const AppBarTheme(backgroundColor: backGroundColor),
-          iconTheme: const IconThemeData(color: secondaryColor),
-          textTheme: basilTheme,
-          dividerColor: Colors.grey,
-          cardColor: primaryColor3,
-        ),
-        navigatorKey: navigatorKey,
-        initialRoute: HomePage.routeName,
-        routes: {
-          HomePage.routeName: (context) => const HomePage(),
-          RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
-                restaurant:
-                    ModalRoute.of(context)?.settings.arguments as Restaurant,
-              ),
-          RestaurantSearchPage.routeName: (context) =>
-              const RestaurantSearchPage(),
-          RestaurantSearchListPage.routeName: (context) =>
-              RestaurantSearchListPage(
-                query: ModalRoute.of(context)?.settings.arguments as String,
-              ),
-        },
-        debugShowCheckedModeBanner: false,
-      ),
+      child: Consumer<PreferencesProvider>(builder: (context, provider, child) {
+        return MaterialApp(
+          title: 'Restaurant App',
+          theme: ThemeData(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: primaryColor,
+                  onPrimary: primaryColor,
+                  secondary: secondaryColor,
+                ),
+            scaffoldBackgroundColor: backGroundColor,
+            appBarTheme: const AppBarTheme(backgroundColor: backGroundColor),
+            iconTheme: const IconThemeData(color: secondaryColor),
+            textTheme: basilTheme,
+            dividerColor: Colors.grey,
+            cardColor: primaryColor3,
+          ),
+          navigatorKey: navigatorKey,
+          initialRoute: HomePage.routeName,
+          routes: {
+            HomePage.routeName: (context) => const HomePage(),
+            RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
+                  restaurant:
+                      ModalRoute.of(context)?.settings.arguments as Restaurant,
+                ),
+            RestaurantSearchPage.routeName: (context) =>
+                const RestaurantSearchPage(),
+            RestaurantSearchListPage.routeName: (context) =>
+                RestaurantSearchListPage(
+                  query: ModalRoute.of(context)?.settings.arguments as String,
+                ),
+          },
+          debugShowCheckedModeBanner: false,
+        );
+      }),
     );
   }
 }
