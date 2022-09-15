@@ -12,7 +12,6 @@ class SchedulingProvider extends ChangeNotifier {
   Future<bool> scheduledRestaurant(bool value) async {
     _isScheduled = value;
     if (_isScheduled) {
-      print('Scheduling Restaurant Activated');
       notifyListeners();
       return await AndroidAlarmManager.periodic(
         const Duration(hours: 24),
@@ -23,7 +22,6 @@ class SchedulingProvider extends ChangeNotifier {
         wakeup: true,
       );
     } else {
-      print('Scheduling Restaurant Canceled');
       notifyListeners();
       return await AndroidAlarmManager.cancel(1);
     }
