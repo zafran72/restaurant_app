@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/model/restaurant_search_model.dart';
+import 'package:restaurant_app/data/model/restaurant_list_model.dart';
 import 'package:restaurant_app/provider/restaurant_search_provider.dart';
+import 'package:restaurant_app/ui/restaurant_card.dart';
 
 class RestaurantSearchListPage extends StatelessWidget {
   static const routeName = '/restaurant_search_list';
@@ -28,7 +29,14 @@ class RestaurantSearchListPage extends StatelessWidget {
                   itemCount: state.result.founded,
                   itemBuilder: (BuildContext context, int index) {
                     var restaurant = state.result.restaurants[index];
-                    return CardSearchRestaurant(restaurant: restaurant);
+                    var restaurant2 = Restaurant(
+                        id: restaurant.id,
+                        name: restaurant.name,
+                        description: restaurant.description,
+                        pictureId: restaurant.pictureId,
+                        city: restaurant.city,
+                        rating: restaurant.rating);
+                    return CardRestaurant(restaurant: restaurant2);
                   },
                 );
               } else if (state.state == ResultState.error) {
@@ -41,77 +49,6 @@ class RestaurantSearchListPage extends StatelessWidget {
             }
           },
         ),
-      ),
-    );
-  }
-}
-
-class CardSearchRestaurant extends StatelessWidget {
-  final Restaurant restaurant;
-
-  const CardSearchRestaurant({super.key, required this.restaurant});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Hero(
-                tag: restaurant.pictureId,
-                child: Image.network(
-                    "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}"),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Text(restaurant.name,
-                              style: Theme.of(context).textTheme.headline6),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6.0),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.location_pin, size: 16),
-                        Text(restaurant.city,
-                            style: Theme.of(context).textTheme.subtitle2),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      const Icon(Icons.star, size: 16),
-                      Text(
-                        restaurant.rating.toString(),
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
       ),
     );
   }
