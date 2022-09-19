@@ -12,6 +12,8 @@ final selectNotificationSubject = BehaviorSubject<String>();
 class NotificationHelper {
   static NotificationHelper? _instance;
 
+  final randomIndex = Random().nextInt(20);
+
   NotificationHelper._internal() {
     _instance = this;
   }
@@ -60,7 +62,8 @@ class NotificationHelper {
         iOS: iOSPlatformChannelSpecifics);
 
     var titleNotification = "<b>Restaurant Recomendation</b>";
-    var nameRestaurant = "Check recommended restaurant for you";
+    var nameRestaurant =
+        "${restaurants.restaurants[randomIndex].name}, ${restaurants.restaurants[randomIndex].city}";
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, nameRestaurant, platformChannelSpecifics,
@@ -71,8 +74,7 @@ class NotificationHelper {
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var data = RestauranList.fromJson(json.decode(payload));
-        var restaurant =
-            data.restaurants[Random().nextInt(data.restaurants.length)];
+        var restaurant = data.restaurants[randomIndex];
         Navigation.intentWithData(route, restaurant);
       },
     );
