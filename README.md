@@ -1,4 +1,3 @@
 # restaurant_app
  
-
-![Desain](https://user-images.githubusercontent.com/57694121/201448397-48597661-ef02-4161-b2db-16ecc6e79b18.png)
+![Screenshot_3](https://user-images.githubusercontent.com/57694121/201448454-804201de-6956-414d-99f3-3c45d6de0a20.png)
